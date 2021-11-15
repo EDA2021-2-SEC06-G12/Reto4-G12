@@ -24,15 +24,46 @@ import config as cf
 import model
 import csv
 
-
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
 
-# Inicialización del Catálogo de libros
+# INICIALIZACIÓN DEL CATÁLOGO
+def initCatalog():
+    catalog = model.newCatalog()
+    return catalog
 
-# Funciones para la carga de datos
+# CARGA DE DATOS AL CATÁLOGO
+#def loadData(catalog):
 
-# Funciones de ordenamiento
+# REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
+def InterAerea():
+    Algoritmo = model.InterAerea()
+    return Algoritmo
 
-# Funciones de consulta sobre el catálogo
+# REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
+def ClusterAereo():
+    Algoritmo = model.ClusterAereo()
+    return Algoritmo
+
+# REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
+def RutaCorta():
+    Algoritmo = model.RutaCorta()
+    return Algoritmo
+
+# REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
+def MillasViajero():
+    Algoritmo = model.MillasViajero()
+    return Algoritmo
+
+# REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
+def AeropuertoCerrado():
+    Algoritmo = model.AeropuertoCerrado()
+    return Algoritmo
+
+# REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)
+def WEBExterno():
+    Algoritmo = model.WEBExterno()
+    return Algoritmo
+
+# FUNCIONES ADICIONALES

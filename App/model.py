@@ -37,14 +37,30 @@ Se define la estructura de un catálogo de videos. El catálogo tendrá dos list
 los mismos.
 """
 
-# Construccion de modelos
+# INICIALIZACIÓN DE CATÁLOGO
+#Catálogo Vacío
+#def newCatalog():
 
-# Funciones para agregar informacion al catalogo
+# CARGA DE DATOS AL CATÁLOGO
 
-# Funciones para creacion de datos
+# REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
+#def InterAerea():
 
-# Funciones de consulta
+# REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
+#def ClusterAereo():
 
-# Funciones utilizadas para comparar elementos dentro de una lista
+# REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
+#def RutaCorta():
 
-# Funciones de ordenamiento
+# REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
+#def MillasViajero():
+
+# REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
+#def AeropuertoCerrado():
+
+# REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)
+#def WEBExterno():
+
+# FUNCIONES DE COMPARACIÓN
+
+# FUNCIONES ADICIONALES
