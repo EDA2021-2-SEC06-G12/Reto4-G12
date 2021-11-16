@@ -26,6 +26,7 @@
 
 
 import config as cf
+from DISClib.ADT.graph import gr
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
@@ -44,7 +45,7 @@ los mismos.
 # CARGA DE DATOS AL CATÁLOGO
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
-#def InterAerea():
+#def InterAerea(catalog):
 
 # REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
 #def ClusterAereo():

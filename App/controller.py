@@ -37,8 +37,8 @@ def initCatalog():
 #def loadData(catalog):
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
-def InterAerea():
-    Algoritmo = model.InterAerea()
+def InterAerea(catalog):
+    Algoritmo = model.InterAerea(catalog)
     return Algoritmo
 
 # REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)

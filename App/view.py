@@ -63,7 +63,7 @@ while True:
         controller.loadData(cont)
     
     elif int(inputs[0]) == 3:
-        Algoritmo = controller.InterAerea()
+        Algoritmo = controller.InterAerea(cont)
 
     elif int(inputs[0]) == 4:
         Algoritmo = controller.ClusterAereo()
