@@ -61,6 +61,8 @@ while True:
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....\n")
         controller.loadData(cont)
+        print("El número de vértices cargados es de:", str(controller.NumeroAeropuertos(cont)))
+        print("El número de rutas cargadas es de:", str(controller.NumeroRutas(cont)))
     
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)
