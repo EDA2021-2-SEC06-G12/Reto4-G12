@@ -74,7 +74,7 @@ def addRutas(catalog, ultimo, ruta):
         addAero(catalog, destino)
         addRuta(catalog, origen, destino, distancia)
         addAeroRutaO(catalog, ultimo)
-        addAeroRutaO(catalog, ruta)
+        addAeroRutaD(catalog, ruta)
     except Exception as exp:
         error.reraise(exp, 'model:addRuta')
 

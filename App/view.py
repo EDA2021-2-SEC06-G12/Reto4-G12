@@ -24,6 +24,8 @@ import config as cf
 import sys
 import controller
 from DISClib.ADT import list as lt
+from DISClib.ADT.graph import gr
+from DISClib.ADT import map as mp
 assert cf
 
 
@@ -63,6 +65,7 @@ while True:
         controller.loadData(cont)
         print("El número de vértices cargados es de:", str(controller.NumeroAeropuertos(cont)))
         print("El número de rutas cargadas es de:", str(controller.NumeroRutas(cont)))
+        #print(gr.adjacents(cont['rutas'], 'KZN-2B'))
     
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)

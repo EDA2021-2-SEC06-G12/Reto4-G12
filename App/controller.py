@@ -43,7 +43,7 @@ def loadData(catalog):
             aerolinea = ultimo['Airline'] == ruta['Airline']
             origen = ultimo['Departure'] == ruta['Departure']
             destino = ultimo['Destination'] == ruta['Destination']
-            if origen and destino and not aerolinea:
+            if origen and destino and aerolinea:
                 model.addRutas(catalog, ultimo, ruta)
         ultimo = ruta
     return catalog
