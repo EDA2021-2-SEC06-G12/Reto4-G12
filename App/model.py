@@ -32,7 +32,7 @@ from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Utils import error as error
 from DISClib.Algorithms.Sorting import mergesort as mrgs
-#import folium 
+import folium 
 assert cf
 
 """
@@ -116,6 +116,7 @@ def addAeropuerto(catalog, aeropuerto):
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
 def InterAerea(catalog):
     lista = lt.newList('ARRAY_LIST')
+    lista_c = lt.newList('ARRAY_LIST')
     lista_f = lt.newList('ARRAY_LIST')
     vertices = gr.vertices(catalog['Dirigido'])
     for i in lt.iterator(vertices):
@@ -133,8 +134,11 @@ def InterAerea(catalog):
         entry = mp.get(catalog['Aeropuertos'], IATA)
         value = me.getValue(entry)
         lt.addLast(lista_f, (j[0], j[2], j[3], value))
+        lt.addLast(lista_c, value)
     
     cuantos = lt.size(orden)
+
+    Visualizar(lista_c, 'Requerimiento 1.html')
 
     return cuantos, lista_f['elements']
 
@@ -154,8 +158,15 @@ def InterAerea(catalog):
 #def WEBExterno():
 
 # REQUERIMIENTO 7 (VISUALIZAR GRÁFICAMENTE LOS REQUERIMIENTOS)
-'''def Visualizar(lista, nombre_mapa):
-    mapa = folium.Map()'''
+def Visualizar(lista, nombre_mapa):
+    aeropuertos = lista
+    mapa = folium.Map()
+    tooltip = '¿Cuál aeropuerto es?: ¡Click para ver!'
+    for i in lt.iterator(aeropuertos):
+        nombre = i['Name'],(i['IATA'])
+        folium.Marker([i['Latitude'], i['Longitude']], tooltip=tooltip,
+                        popup=nombre).add_to(mapa)
+    mapa.save(nombre_mapa)
 
 # FUNCIONES DE COMPARACIÓN
 def compareStopIds(stop, keyvaluestop):
