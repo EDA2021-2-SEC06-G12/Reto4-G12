@@ -24,7 +24,6 @@
  * Dario Correal - Version inicial
  """
 
-
 import config as cf
 from DISClib.ADT.graph import gr
 from DISClib.ADT import list as lt
@@ -164,7 +163,8 @@ def ClusterAereo(catalog, IATA_1, IATA_2):
     return cuantos, pertenecen
 
 # REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
-#def RutaCorta():
+#def RutaCorta(catalog, origen, destino):
+
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
 #def MillasViajero():
@@ -238,3 +238,13 @@ def NumeroAeropuertosND(catalog):
 
 def NumeroRutasND(catalog):
     return gr.numEdges(catalog['No_Dirigido'])
+
+def NumeroCiudades(catalog):
+    ciudades = mp.keySet(catalog['Ciudades'])
+    return lt.size(ciudades)
+
+def Ciudadescargadas(catalog):
+    ciudades = mp.keySet(catalog['Ciudades'])
+    primera = lt.subList(ciudades, 1, 1)
+    ultima = lt.subList(ciudades, len(ciudades) - 1, 1)
+    return primera, ultima

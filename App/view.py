@@ -82,12 +82,9 @@ while True:
         print("El número de rutas cargadas es de:", str(controller.NumeroRutasD(cont)), "\n")
         print("Para el grafo no dirigido:")
         print("El número de vértices cargados es de:", str(controller.NumeroAeropuertosND(cont)))
-        print("El número de rutas cargadas es de:", str(controller.NumeroRutasND(cont)))
-        
-        #print(mp.get(cont['Ciudades'], 'Washington2'))
-        #print(mp.keySet(cont['Ciudades']))
-        #print(gr.outdegree(cont['Dirigido']))
-        #print(gr.indegree(cont['Dirigido']))
+        print("El número de rutas cargadas es de:", str(controller.NumeroRutasND(cont)), "\n")
+        print("Se cargaron un total de:", controller.NumeroCiudades(cont), "ciudades")
+        print(controller.Ciudadescargadas(cont))
     
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)
@@ -106,7 +103,9 @@ while True:
             print("Los aeropuertos ingresados no se encuentran dentro del mismo componente.")
     
     elif int(inputs[0]) == 5:
-        Algoritmo = controller.RutaCorta()
+        origen = input('Ingrese ciudad de origen: ')
+        destino = input('Ingrese ciudad de destino: ')
+        Algoritmo = controller.RutaCorta(cont, origen, destino)
     
     elif int(inputs[0]) == 6:
         Algoritmo = controller.MillasViajero()
