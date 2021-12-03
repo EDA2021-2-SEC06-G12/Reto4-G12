@@ -32,6 +32,7 @@ from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Utils import error as error
 from DISClib.Algorithms.Sorting import mergesort as mrgs
+import folium 
 assert cf
 
 """
@@ -151,6 +152,10 @@ def InterAerea(catalog):
 
 # REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)
 #def WEBExterno():
+
+# REQUERIMIENTO 7 (VISUALIZAR GRÁFICAMENTE LOS REQUERIMIENTOS)
+'''def Visualizar(lista, nombre_mapa):
+    mapa = folium.Map()'''
 
 # FUNCIONES DE COMPARACIÓN
 def compareStopIds(stop, keyvaluestop):
