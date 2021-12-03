@@ -48,23 +48,21 @@ def newCatalog():
         catalog = {
                     'aeropuertos': None,
                     'Dirigido': None,
-                    'No_Dirigido': None,
-                    'components': None,
-                    'paths': None
+                    'No_Dirigido': None
                     }
 
-        catalog['Aeropuertos'] = mp.newMap(numelements=10000,
+        catalog['Aeropuertos'] = mp.newMap(numelements=100000,
                                      maptype='PROBING',
                                      comparefunction=compareStopIds)
 
         catalog['Dirigido'] = gr.newGraph(datastructure='ADJ_LIST',
                                               directed=True,
-                                              size=10000,
+                                              size=100000,
                                               comparefunction=compareStopIds)
         
         catalog['No_Dirigido'] = gr.newGraph(datastructure='ADJ_LIST',
                                               directed=False,
-                                              size=10000,
+                                              size=100000,
                                               comparefunction=compareStopIds)
         return catalog
     except Exception as exp:
@@ -139,7 +137,7 @@ def InterAerea(catalog):
     
     cuantos = lt.size(orden)
 
-    #Visualizar(lista_c, 'Requerimiento 1.html')
+    Visualizar(lista_c, 'Requerimiento 1.html')
 
     return cuantos, lista_f['elements']
 

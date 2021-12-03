@@ -97,6 +97,7 @@ while True:
     elif int(inputs[0]) == 4:
         IATA_1 = input('Ingrese código IATA del aeropuerto 1: ')
         IATA_2 = input('Ingrese código IATA del aeropuerto 2: ')
+        sys.setrecursionlimit(2 ** 20)
         Algoritmo = controller.ClusterAereo(cont, IATA_1, IATA_2)
         print("\nDentro de la red, hay un total de", Algoritmo[0], "componentes fuertemente conectados.\n")
         if Algoritmo[1]:
