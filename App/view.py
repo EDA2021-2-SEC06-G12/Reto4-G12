@@ -95,7 +95,14 @@ while True:
         formatoRtaReq1(Algoritmo)
 
     elif int(inputs[0]) == 4:
-        Algoritmo = controller.ClusterAereo()
+        IATA_1 = input('Ingrese código IATA del aeropuerto 1: ')
+        IATA_2 = input('Ingrese código IATA del aeropuerto 2: ')
+        Algoritmo = controller.ClusterAereo(cont, IATA_1, IATA_2)
+        print("\nDentro de la red, hay un total de", Algoritmo[0], "componentes fuertemente conectados.\n")
+        if Algoritmo[1]:
+            print("Los aeropuertos ingresados se encuentran dentro del mismo componente.")
+        else:
+            print("Los aeropuertos ingresados no se encuentran dentro del mismo componente.")
     
     elif int(inputs[0]) == 5:
         Algoritmo = controller.RutaCorta()

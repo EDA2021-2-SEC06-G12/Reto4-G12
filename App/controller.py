@@ -63,8 +63,8 @@ def InterAerea(catalog):
     return Algoritmo
 
 # REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
-def ClusterAereo():
-    Algoritmo = model.ClusterAereo()
+def ClusterAereo(catalog, IATA_1, IATA_2):
+    Algoritmo = model.ClusterAereo(catalog, IATA_1, IATA_2)
     return Algoritmo
 
 # REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)

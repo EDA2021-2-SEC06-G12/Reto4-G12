@@ -32,6 +32,7 @@ from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Utils import error as error
 from DISClib.Algorithms.Sorting import mergesort as mrgs
+from DISClib.Algorithms.Graphs import scc
 import folium 
 assert cf
 
@@ -138,12 +139,16 @@ def InterAerea(catalog):
     
     cuantos = lt.size(orden)
 
-    Visualizar(lista_c, 'Requerimiento 1.html')
+    #Visualizar(lista_c, 'Requerimiento 1.html')
 
     return cuantos, lista_f['elements']
 
 # REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
-#def ClusterAereo():
+def ClusterAereo(catalog, IATA_1, IATA_2):
+    componentes = scc.KosarajuSCC(catalog['Dirigido'])
+    cuantos = scc.connectedComponents(componentes)
+    pertenecen = scc.stronglyConnected(componentes, IATA_1, IATA_2)
+    return cuantos, pertenecen
 
 # REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
 #def RutaCorta():
