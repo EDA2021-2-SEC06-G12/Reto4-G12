@@ -41,6 +41,9 @@ def loadData(catalog):
     aeropuertos = cf.data_dir + 'airports-utf8-small.csv'
     archivo_aeropuertos = csv.DictReader(open(aeropuertos, encoding="utf-8"))
 
+    ciudades = cf.data_dir + 'worldcities-utf8.csv'
+    archivo_ciudades = csv.DictReader(open(ciudades, encoding="utf-8"))
+
     for aeropuerto in archivo_aeropuertos:
         codigo = aeropuerto['IATA']
         model.addAeroD(catalog, codigo)
@@ -53,6 +56,9 @@ def loadData(catalog):
         distancia = ruta['distance_km']
         model.addEdgeD(catalog, origen, destino, distancia)
         #model.addAeroRuta(catalog, ruta)
+    
+    for ciudad in archivo_ciudades:
+        model.addCiudad(catalog, ciudad)
             
     return catalog
 

@@ -54,6 +54,10 @@ def newCatalog():
         catalog['Aeropuertos'] = mp.newMap(numelements=100000,
                                      maptype='PROBING',
                                      comparefunction=compareStopIds)
+        
+        catalog['Ciudades'] = mp.newMap(numelements=45000,
+                                     maptype='PROBING',
+                                     comparefunction=compareStopIds)
 
         catalog['Dirigido'] = gr.newGraph(datastructure='ADJ_LIST',
                                               directed=True,
@@ -111,6 +115,17 @@ def addAeropuerto(catalog, aeropuerto):
     exist = mp.contains(aeropuertos, aeropuerto['IATA'])
     if not exist:
         mp.put(aeropuertos, aeropuerto['IATA'], aeropuerto)
+
+def addCiudad(catalog, ciudad):
+    cuantos = 1
+    ciudades = catalog['Ciudades']
+    exist = mp.contains(ciudades, ciudad['city'])
+    if not exist:
+        mp.put(ciudades, ciudad['city'], ciudad)
+    if exist:
+        cuantos += 1
+        nombre = ciudad['city'] + str(cuantos)
+        mp.put(ciudades, nombre, ciudad)
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
 def InterAerea(catalog):

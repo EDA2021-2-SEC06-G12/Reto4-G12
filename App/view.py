@@ -28,7 +28,6 @@ from DISClib.ADT.graph import gr
 from DISClib.ADT import map as mp
 assert cf
 
-
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -84,8 +83,9 @@ while True:
         print("Para el grafo no dirigido:")
         print("El número de vértices cargados es de:", str(controller.NumeroAeropuertosND(cont)))
         print("El número de rutas cargadas es de:", str(controller.NumeroRutasND(cont)))
-
-        #print(mp.keySet(cont['Aeropuertos']))
+        
+        #print(mp.get(cont['Ciudades'], 'Washington2'))
+        #print(mp.keySet(cont['Ciudades']))
         #print(gr.outdegree(cont['Dirigido']))
         #print(gr.indegree(cont['Dirigido']))
     
