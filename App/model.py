@@ -30,8 +30,8 @@ from DISClib.ADT.graph import gr
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
-from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Utils import error as error
+from DISClib.Algorithms.Sorting import mergesort as mrgs
 assert cf
 
 """
@@ -45,81 +45,97 @@ def newCatalog():
     try:
         catalog = {
                     'aeropuertos': None,
-                    'rutas': None,
+                    'Dirigido': None,
+                    'No_Dirigido': None,
                     'components': None,
                     'paths': None
                     }
 
-        catalog['aeropuertos'] = mp.newMap(numelements=95000,
+        catalog['Aeropuertos'] = mp.newMap(numelements=10000,
                                      maptype='PROBING',
                                      comparefunction=compareStopIds)
 
-        catalog['rutas'] = gr.newGraph(datastructure='ADJ_LIST',
+        catalog['Dirigido'] = gr.newGraph(datastructure='ADJ_LIST',
+                                              directed=True,
+                                              size=10000,
+                                              comparefunction=compareStopIds)
+        
+        catalog['No_Dirigido'] = gr.newGraph(datastructure='ADJ_LIST',
                                               directed=False,
-                                              size=95000,
+                                              size=10000,
                                               comparefunction=compareStopIds)
         return catalog
     except Exception as exp:
         error.reraise(exp, 'model:newCatalog')
 
 # CARGA DE DATOS AL CATÁLOGO
-def addRutas(catalog, ultimo, ruta):
+def addAeroD(catalog, aeropuerto):
     try:
-        origen = FormatoVerticeO(ultimo)
-        destino = FormatoVerticeD(ruta)
-        cleanServiceDistance(ultimo, ruta)
-        distancia = float(ruta['distance_km']) - float(ultimo['distance_km'])
-        distancia = abs(distancia)
-        addAero(catalog, origen)
-        addAero(catalog, destino)
-        addRuta(catalog, origen, destino, distancia)
-        addAeroRutaO(catalog, ultimo)
-        addAeroRutaD(catalog, ruta)
-    except Exception as exp:
-        error.reraise(exp, 'model:addRuta')
-
-def addAero(catalog, aeropuerto):
-    try:
-        if not gr.containsVertex(catalog['rutas'], aeropuerto):
-            gr.insertVertex(catalog['rutas'], aeropuerto)
+        if not gr.containsVertex(catalog['Dirigido'], aeropuerto):
+            gr.insertVertex(catalog['Dirigido'], aeropuerto)
         return catalog
     except Exception as exp:
-        error.reraise(exp, 'model:addAero')
+        error.reraise(exp, 'model:addAeroD')
 
-def addRuta(catalog, origen, destino, distancia):
-    arco = gr.getEdge(catalog['rutas'], origen, destino)
-    if arco is None:
-        gr.addEdge(catalog['rutas'], origen, destino, distancia)
+def addEdgeD(catalog, origen, destino, distancia):
+    gr.addEdge(catalog['Dirigido'], origen, destino, distancia)
     return catalog
 
-def addAeroRutaO(catalog, ruta):
+def addAeroND(catalog, aeropuerto):
+    try:
+        if not gr.containsVertex(catalog['No_Dirigido'], aeropuerto):
+            gr.insertVertex(catalog['No_Dirigido'], aeropuerto)
+        return catalog
+    except Exception as exp:
+        error.reraise(exp, 'model:addAeroND')
+
+def addEdgeND(catalog, origen, destino, distancia):
+    gr.addEdge(catalog['No_Dirigido'], origen, destino, distancia)
+    return catalog
+
+def addAeroRuta(catalog, ruta):
     entry = mp.get(catalog['aeropuertos'], ruta['Departure'])
     if entry is None:
         lstroutes = lt.newList(cmpfunction=compareroutes)
-        lt.addLast(lstroutes, ruta['Airline'])
+        lt.addLast(lstroutes, (ruta['Destination'], ruta['Airline']))
         mp.put(catalog['aeropuertos'], ruta['Departure'], lstroutes)
     else:
         lstroutes = entry['value']
-        info = ruta['Airline']
+        info = (ruta['Destination'], ruta['Airline'])
         if not lt.isPresent(lstroutes, info):
             lt.addLast(lstroutes, info)
     return catalog
 
-def addAeroRutaD(catalog, ruta):
-    entry = mp.get(catalog['aeropuertos'], ruta['Destination'])
-    if entry is None:
-        lstroutes = lt.newList(cmpfunction=compareroutes)
-        lt.addLast(lstroutes, ruta['Airline'])
-        mp.put(catalog['aeropuertos'], ruta['Destination'], lstroutes)
-    else:
-        lstroutes = entry['value']
-        info = ruta['Airline']
-        if not lt.isPresent(lstroutes, info):
-            lt.addLast(lstroutes, info)
-    return catalog
+def addAeropuerto(catalog, aeropuerto):
+    aeropuertos = catalog['Aeropuertos']
+    exist = mp.contains(aeropuertos, aeropuerto['IATA'])
+    if not exist:
+        mp.put(aeropuertos, aeropuerto['IATA'], aeropuerto)
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
-#def InterAerea(catalog):
+def InterAerea(catalog):
+    lista = lt.newList('ARRAY_LIST')
+    lista_f = lt.newList('ARRAY_LIST')
+    vertices = gr.vertices(catalog['Dirigido'])
+    for i in lt.iterator(vertices):
+        in_d = gr.indegree(catalog['Dirigido'], i)
+        out_d = gr.outdegree(catalog['Dirigido'], i)
+        total = in_d + out_d
+        if total != 0:
+            lt.addLast(lista, (total, i))
+    
+    orden = ordenamiento(lista)
+    mayores = lt.subList(orden, 1, 5)
+
+    for j in lt.iterator(mayores):
+        IATA = j[1]
+        entry = mp.get(catalog['Aeropuertos'], IATA)
+        value = me.getValue(entry)
+        lt.addLast(lista_f, value)
+    
+    cuantos = lt.size(orden)
+
+    return cuantos, lista_f
 
 # REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
 #def ClusterAereo():
@@ -160,25 +176,31 @@ def compareroutes(route1, route2):
     else:
         return -1
 
+def cmpA_IN(artist1, artist2):
+    if artist1 > artist2:
+        r = True
+    else:
+        r = False 
+    return r
+
+#FUNCIONES DE ORDENAMIENTO
+def ordenamiento(Lista):
+    sorted_list = mrgs.sort(Lista, cmpfunction=cmpA_IN)
+    return sorted_list
+
 # FUNCIONES ADICIONALES
-def FormatoVerticeO(aeropuerto):
-    formato = aeropuerto['Departure'] + '-'
-    formato = formato + aeropuerto['Airline']
-    return formato
-
-def FormatoVerticeD(aeropuerto):
-    formato = aeropuerto['Destination'] + '-'
-    formato = formato + aeropuerto['Airline']
-    return formato
-
-def cleanServiceDistance(ultimo, ruta):
+def cleanServiceDistance(ruta):
     if ruta['distance_km'] == '':
         ruta['distance_km'] = 0
-    if ultimo['distance_km'] == '':
-        ultimo['distance_km'] = 0
 
-def NumeroAeropuertos(catalog):
-    return gr.numVertices(catalog['rutas'])
+def NumeroAeropuertosD(catalog):
+    return gr.numVertices(catalog['Dirigido'])
 
-def NumeroRutas(catalog):
-    return gr.numEdges(catalog['rutas'])
+def NumeroRutasD(catalog):
+    return gr.numEdges(catalog['Dirigido'])
+
+def NumeroAeropuertosND(catalog):
+    return gr.numVertices(catalog['No_Dirigido'])
+
+def NumeroRutasND(catalog):
+    return gr.numEdges(catalog['No_Dirigido'])

@@ -35,18 +35,27 @@ def initCatalog():
 
 # CARGA DE DATOS AL CATÁLOGO
 def loadData(catalog):
-    rutas = cf.data_dir + 'routes_full.csv'
+    rutas = cf.data_dir + 'routes-utf8-small.csv'
     archivo_rutas = csv.DictReader(open(rutas, encoding="utf-8"))
-    ultimo = None
+
+    aeropuertos = cf.data_dir + 'airports-utf8-small.csv'
+    archivo_aeropuertos = csv.DictReader(open(aeropuertos, encoding="utf-8"))
+
+    for aeropuerto in archivo_aeropuertos:
+        codigo = aeropuerto['IATA']
+        model.addAeroD(catalog, codigo)
+        model.addAeroND(catalog, codigo)
+        model.addAeropuerto(catalog, aeropuerto)
+    
     for ruta in archivo_rutas:
-        if ultimo is not None:
-            aerolinea = ultimo['Airline'] == ruta['Airline']
-            origen = ultimo['Departure'] == ruta['Departure']
-            destino = ultimo['Destination'] == ruta['Destination']
-            if origen and destino and aerolinea:
-                model.addRutas(catalog, ultimo, ruta)
-        ultimo = ruta
+        origen = ruta['Departure']
+        destino = ruta['Destination']
+        distancia = ruta['distance_km']
+        model.addEdgeD(catalog, origen, destino, distancia)
+        #model.addAeroRuta(catalog, ruta)
+            
     return catalog
+
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
 def InterAerea(catalog):
@@ -79,8 +88,14 @@ def WEBExterno():
     return Algoritmo
 
 # FUNCIONES ADICIONALES
-def NumeroAeropuertos(catalog):
-    return model.NumeroAeropuertos(catalog)
+def NumeroAeropuertosD(catalog):
+    return model.NumeroAeropuertosD(catalog)
 
-def NumeroRutas(catalog):
-    return model.NumeroRutas(catalog)
+def NumeroRutasD(catalog):
+    return model.NumeroRutasD(catalog)
+
+def NumeroAeropuertosND(catalog):
+    return model.NumeroAeropuertosD(catalog)
+
+def NumeroRutasND(catalog):
+    return model.NumeroRutasND(catalog)

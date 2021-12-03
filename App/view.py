@@ -55,6 +55,7 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
 
+
     if int(inputs[0]) == 1:
         print("Inicializando Catálogo ....\n")
         cont = controller.initCatalog()
@@ -63,12 +64,20 @@ while True:
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....\n")
         controller.loadData(cont)
-        print("El número de vértices cargados es de:", str(controller.NumeroAeropuertos(cont)))
-        print("El número de rutas cargadas es de:", str(controller.NumeroRutas(cont)))
-        #print(gr.adjacents(cont['rutas'], 'KZN-2B'))
+        print("Para el grafo dirigido:")
+        print("El número de vértices cargados es de:", str(controller.NumeroAeropuertosD(cont)))
+        print("El número de rutas cargadas es de:", str(controller.NumeroRutasD(cont)), "\n")
+        print("Para el grafo no dirigido:")
+        print("El número de vértices cargados es de:", str(controller.NumeroAeropuertosND(cont)))
+        print("El número de rutas cargadas es de:", str(controller.NumeroRutasND(cont)), "\n")
+
+        #print(mp.keySet(cont['Aeropuertos']))
+        #print(gr.outdegree(cont['Dirigido']))
+        #print(gr.indegree(cont['Dirigido']))
     
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)
+        print(Algoritmo)
 
     elif int(inputs[0]) == 4:
         Algoritmo = controller.ClusterAereo()
