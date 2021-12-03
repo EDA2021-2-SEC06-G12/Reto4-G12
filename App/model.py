@@ -32,7 +32,7 @@ from DISClib.ADT import map as mp
 from DISClib.DataStructures import mapentry as me
 from DISClib.Utils import error as error
 from DISClib.Algorithms.Sorting import mergesort as mrgs
-import folium 
+#import folium 
 assert cf
 
 """
@@ -123,7 +123,7 @@ def InterAerea(catalog):
         out_d = gr.outdegree(catalog['Dirigido'], i)
         total = in_d + out_d
         if total != 0:
-            lt.addLast(lista, (total, i))
+            lt.addLast(lista, (total, i, str(in_d), str(out_d)))
     
     orden = ordenamiento(lista)
     mayores = lt.subList(orden, 1, 5)
@@ -132,11 +132,11 @@ def InterAerea(catalog):
         IATA = j[1]
         entry = mp.get(catalog['Aeropuertos'], IATA)
         value = me.getValue(entry)
-        lt.addLast(lista_f, value)
+        lt.addLast(lista_f, (j[0], j[2], j[3], value))
     
     cuantos = lt.size(orden)
 
-    return cuantos, lista_f
+    return cuantos, lista_f['elements']
 
 # REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
 #def ClusterAereo():

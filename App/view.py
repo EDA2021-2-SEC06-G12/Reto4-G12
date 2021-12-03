@@ -36,8 +36,23 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+def formatoRtaReq1(rta):
+    rta = rta[1]
+    for i in rta:
+        aero = i[3]
+        conexiones = i[0]
+        entran = i[1]
+        salen = i[2]
+        print("\nName:", aero['Name'])
+        print("City:", aero['City'])
+        print("Country:", aero['Country'])
+        print("IATA:", aero['IATA'])
+        print("connections:", conexiones)
+        print("inbound:", entran)
+        print("outbound:", salen)
+
 def printMenu():
-    print("Bienvenido")
+    print("\nBienvenido")
     print("1- Inicializar Catálogo")
     print("2- Cargar información en el catálogo")
     print("3- Encontrar puntos de interconexión aérea")
@@ -55,11 +70,10 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
 
-
     if int(inputs[0]) == 1:
         print("Inicializando Catálogo ....\n")
         cont = controller.initCatalog()
-        print("Catálogo Inicializado\n")
+        print("Catálogo Inicializado")
 
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....\n")
@@ -69,7 +83,7 @@ while True:
         print("El número de rutas cargadas es de:", str(controller.NumeroRutasD(cont)), "\n")
         print("Para el grafo no dirigido:")
         print("El número de vértices cargados es de:", str(controller.NumeroAeropuertosND(cont)))
-        print("El número de rutas cargadas es de:", str(controller.NumeroRutasND(cont)), "\n")
+        print("El número de rutas cargadas es de:", str(controller.NumeroRutasND(cont)))
 
         #print(mp.keySet(cont['Aeropuertos']))
         #print(gr.outdegree(cont['Dirigido']))
@@ -77,7 +91,8 @@ while True:
     
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)
-        print(Algoritmo)
+        print("\nDentro de la red, hay un total de", Algoritmo[0], "aeropuertos interconectados.")
+        formatoRtaReq1(Algoritmo)
 
     elif int(inputs[0]) == 4:
         Algoritmo = controller.ClusterAereo()
