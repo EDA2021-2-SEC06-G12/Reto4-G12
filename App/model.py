@@ -86,8 +86,7 @@ def addAeroD(catalog, aeropuerto):
         error.reraise(exp, 'model:addAeroD')
 
 def addEdgeD(catalog, origen, destino, distancia):
-    if gr.getEdge(catalog['Dirigido'], origen, destino) is None:
-        gr.addEdge(catalog['Dirigido'], origen, destino, distancia)
+    gr.addEdge(catalog['Dirigido'], origen, destino, distancia)
     return catalog
 
 def addAeroND(catalog, aeropuerto):
