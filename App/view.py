@@ -34,6 +34,22 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
+def formatoCarga(rta):
+    for i in rta:
+        print("\nCity:", i['city'])
+        print("Country:", i['country'])
+        print("Lat:", i['lat'])
+        print("Lng:", i['lng'])
+        print("Population:", i['population'])
+
+def formatoCargaG(rta):
+    for i in lt.iterator(rta):
+        print("\nIATA:", i['IATA'])
+        print("Name:", i['Name'])
+        print("City:", i['City'])
+        print("Country:", i['Country'])
+        print("Latitude:", i['Latitude'])
+        print("Longitude:", i['Longitude'])
 
 def formatoRtaReq1(rta):
     rta = rta[1]
@@ -46,9 +62,9 @@ def formatoRtaReq1(rta):
         print("City:", aero['City'])
         print("Country:", aero['Country'])
         print("IATA:", aero['IATA'])
-        print("connections:", conexiones)
-        print("inbound:", entran)
-        print("outbound:", salen)
+        print("Connections:", conexiones)
+        print("Inbound:", entran)
+        print("Outbound:", salen)
 
 def printMenu():
     print("\nBienvenido")
@@ -77,14 +93,17 @@ while True:
     elif int(inputs[0]) == 2:
         print("Cargando información de los archivos ....\n")
         controller.loadData(cont)
-        print("Para el grafo dirigido:")
-        print("El número de vértices cargados es de:", str(controller.NumeroAeropuertosD(cont)))
-        print("El número de rutas cargadas es de:", str(controller.NumeroRutasD(cont)), "\n")
-        print("Para el grafo no dirigido:")
-        print("El número de vértices cargados es de:", str(controller.NumeroAeropuertosND(cont)))
-        print("El número de rutas cargadas es de:", str(controller.NumeroRutasND(cont)), "\n")
-        print("Se cargaron un total de:", controller.NumeroCiudades(cont), "ciudades")
-        print(controller.Ciudadescargadas(cont))
+        print("En el grafo dirigido, se cargaron", str(controller.NumeroAeropuertosD(cont)), "aeropuertos y",
+                str(controller.NumeroRutasD(cont)), "rutas. A continuación, se presentan el primer y el último aeropuerto cargado:")
+        formatoCargaG(controller.AeropuertosCargadosD(cont))
+
+        print("\nEn el grafo no dirigido, se cargaron", str(controller.NumeroAeropuertosND(cont)), "aeropuertos y",
+                str(controller.NumeroRutasND(cont)), "rutas. A continuación, se presentan el primer y el último aeropuerto cargado:")
+        formatoCargaG(controller.AeropuertosCargadosND(cont))
+
+        print("\nEn la red de ciudades, se cargaron un total de", controller.NumeroCiudades(cont),
+                "ciudades. A continuación, se presentan la primera y la última ciudad cargada:")
+        formatoCarga(controller.Ciudadescargadas(cont))
     
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)

@@ -118,7 +118,6 @@ def addAeropuerto(catalog, aeropuerto):
         mp.put(aeropuertos, aeropuerto['IATA'], aeropuerto)
 
 def addCiudad(catalog, ciudad):
-      
     ciudades = catalog['Ciudades']
     exist = mp.contains(ciudades, ciudad['city'])
     if not exist:
@@ -130,7 +129,6 @@ def addCiudad(catalog, ciudad):
         lista= me.getValue(mp.get(ciudades,ciudad['city']))
         lt.addLast(lista,ciudad)
     lt.addLast(catalog['ListaCiudades'], ciudad)
-        
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
 def InterAerea(catalog):
@@ -252,3 +250,27 @@ def Ciudadescargadas(catalog):
     primera = lt.firstElement(catalog['ListaCiudades'])
     ultima = lt.lastElement(catalog['ListaCiudades'])
     return primera, ultima
+
+def AeropuertosCargadosD(catalog):
+    lista = lt.newList('ARRAY_LIST')
+    vertices = gr.vertices(catalog['Dirigido'])
+    primero = lt.firstElement(vertices)
+    ultimo = lt.lastElement(vertices)
+    tupla = primero, ultimo
+    for i in tupla:
+        entry = mp.get(catalog['Aeropuertos'], i)
+        value = me.getValue(entry)
+        lt.addLast(lista, value)
+    return lista
+
+def AeropuertosCargadosND(catalog):
+    lista = lt.newList('ARRAY_LIST')
+    vertices = gr.vertices(catalog['No_Dirigido'])
+    primero = lt.firstElement(vertices)
+    ultimo = lt.lastElement(vertices)
+    tupla = primero, ultimo
+    for i in tupla:
+        entry = mp.get(catalog['Aeropuertos'], i)
+        value = me.getValue(entry)
+        lt.addLast(lista, value)
+    return lista

@@ -111,3 +111,9 @@ def NumeroCiudades(catalog):
 
 def Ciudadescargadas(catalog):
     return model.Ciudadescargadas(catalog)
+
+def AeropuertosCargadosD(catalog):
+    return model.AeropuertosCargadosD(catalog)
+
+def AeropuertosCargadosND(catalog):
+    return model.AeropuertosCargadosND(catalog)
