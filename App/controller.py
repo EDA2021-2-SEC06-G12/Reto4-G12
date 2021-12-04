@@ -90,8 +90,8 @@ def MillasViajero(catalog, millas, origen):
     return Algoritmo
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
-def AeropuertoCerrado():
-    Algoritmo = model.AeropuertoCerrado()
+def AeropuertoCerrado(catalog, cerrado):
+    Algoritmo = model.AeropuertoCerrado(catalog, cerrado)
     return Algoritmo
 
 # REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)

@@ -66,6 +66,19 @@ def formatoRtaReq1(rta):
         print("Inbound:", entran)
         print("Outbound:", salen)
 
+def formatoRtaReq5(rta_1, rta_2):
+    for i in lt.iterator(rta_1):
+        print("\nIATA:", i['IATA'])
+        print("Name:", i['Name'])
+        print("City:", i['City'])
+        print("Country:", i['Country'])
+
+    for j in lt.iterator(rta_2):
+        print("\nIATA:", j['IATA'])
+        print("Name:", j['Name'])
+        print("City:", j['City'])
+        print("Country:", j['Country'])
+
 def printMenu():
     print("\nBienvenido")
     print("1- Inicializar Catálogo")
@@ -104,7 +117,7 @@ while True:
         print("\nEn la red de ciudades, se cargaron un total de", controller.NumeroCiudades(cont),
                 "ciudades. A continuación, se presentan la primera y la última ciudad cargada:")
         formatoCarga(controller.Ciudadescargadas(cont))
-    
+
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)
         print("\nDentro de la red, hay un total de", Algoritmo[0], "aeropuertos interconectados.")
@@ -132,7 +145,11 @@ while True:
         Algoritmo = controller.MillasViajero(cont, millas, origen)
     
     elif int(inputs[0]) == 7:
-        Algoritmo = controller.AeropuertoCerrado()
+        cerrado = input('Ingrese IATA del aeropuerto a cerrar: ')
+        Algoritmo = controller.AeropuertoCerrado(cont, cerrado)
+        print("Al cerrar el aeropuerto", cerrado + ",", "se afectan", Algoritmo[0],
+                "aeropuertos. A continuación, se presentan los 3 primeros y los 3 últimos aeropuertos afectados:")
+        formatoRtaReq5(Algoritmo[1], Algoritmo[2])
     
     elif int(inputs[0]) == 8:
         Algoritmo = controller.WEBExterno()

@@ -171,11 +171,26 @@ def MillasViajero(catalog, millas, origen):
             aero = value['IATA']
     millas = int(millas) * 1.60
     MST = prim.PrimMST(catalog['Dirigido'])
-    return print(MST['iminpq'])
+    return MST
 
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
-#def AeropuertoCerrado():
+def AeropuertoCerrado(catalog, cerrado):
+    lista = lt.newList('ARRAY_LIST')
+    AD = gr.adjacents(catalog['No_Dirigido'], cerrado)
+    for i in lt.iterator(AD):
+        entry = mp.get(catalog['Aeropuertos'], i)
+        value = me.getValue(entry)
+        lt.addLast(lista, value)
+
+    cuantos = lt.size(lista)
+
+    primeros_3 = lt.subList(lista, 1, 3)
+    ultimos_3 = lt.subList(lista, len(lista) - 3, 3)
+
+    Visualizar(lista, 'Requerimiento 5.html')
+
+    return cuantos, primeros_3, ultimos_3
 
 # REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)
 #def WEBExterno():
