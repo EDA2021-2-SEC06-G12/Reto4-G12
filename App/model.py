@@ -45,7 +45,9 @@ los mismos.
 def newCatalog():
     try:
         catalog = {
-                    'aeropuertos': None,
+                    'Aeropuertos': None,
+                    'Ciudades': None,
+                    'Lista_Ciudades': None,
                     'Dirigido': None,
                     'No_Dirigido': None
                     }
