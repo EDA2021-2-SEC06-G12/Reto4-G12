@@ -58,6 +58,8 @@ def newCatalog():
                                      maptype='PROBING',
                                      comparefunction=compareStopIds)
 
+        catalog['ListaCiudades'] = lt.newList('SINGLE_LINKED')
+
         catalog['Dirigido'] = gr.newGraph(datastructure='ADJ_LIST',
                                               directed=True,
                                               size=100000,
@@ -116,15 +118,19 @@ def addAeropuerto(catalog, aeropuerto):
         mp.put(aeropuertos, aeropuerto['IATA'], aeropuerto)
 
 def addCiudad(catalog, ciudad):
-    cuantos = 1
+      
     ciudades = catalog['Ciudades']
     exist = mp.contains(ciudades, ciudad['city'])
     if not exist:
-        mp.put(ciudades, ciudad['city'], ciudad)
-    if exist:
-        cuantos += 1
-        nombre = ciudad['city'] + str(cuantos)
-        mp.put(ciudades, nombre, ciudad)
+        lst_ciudades=lt.newList('ARRAY_LIST')
+        lt.addLast(lst_ciudades,ciudad)
+        mp.put(ciudades, ciudad['city'], lst_ciudades)
+
+    if exist:       
+        lista= me.getValue(mp.get(ciudades,ciudad['city']))
+        lt.addLast(lista,ciudad)
+    lt.addLast(catalog['ListaCiudades'], ciudad)
+        
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
 def InterAerea(catalog):
@@ -240,11 +246,9 @@ def NumeroRutasND(catalog):
     return gr.numEdges(catalog['No_Dirigido'])
 
 def NumeroCiudades(catalog):
-    ciudades = mp.keySet(catalog['Ciudades'])
-    return lt.size(ciudades)
+    return lt.size(catalog['ListaCiudades'])
 
 def Ciudadescargadas(catalog):
-    ciudades = mp.keySet(catalog['Ciudades'])
-    primera = lt.subList(ciudades, 1, 1)
-    ultima = lt.subList(ciudades, len(ciudades) - 1, 1)
+    primera = lt.firstElement(catalog['ListaCiudades'])
+    ultima = lt.lastElement(catalog['ListaCiudades'])
     return primera, ultima
