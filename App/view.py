@@ -127,7 +127,9 @@ while True:
         Algoritmo = controller.RutaCorta(cont, origen, destino)
     
     elif int(inputs[0]) == 6:
-        Algoritmo = controller.MillasViajero()
+        millas = input('Ingrese millas disponibles: ')
+        origen = input('Ingrese ciudad de origen: ')
+        Algoritmo = controller.MillasViajero(cont, millas, origen)
     
     elif int(inputs[0]) == 7:
         Algoritmo = controller.AeropuertoCerrado()

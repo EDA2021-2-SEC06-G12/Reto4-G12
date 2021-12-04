@@ -32,6 +32,7 @@ from DISClib.DataStructures import mapentry as me
 from DISClib.Utils import error as error
 from DISClib.Algorithms.Sorting import mergesort as mrgs
 from DISClib.Algorithms.Graphs import scc
+from DISClib.Algorithms.Graphs import prim
 import folium 
 assert cf
 
@@ -85,7 +86,8 @@ def addAeroD(catalog, aeropuerto):
         error.reraise(exp, 'model:addAeroD')
 
 def addEdgeD(catalog, origen, destino, distancia):
-    gr.addEdge(catalog['Dirigido'], origen, destino, distancia)
+    if gr.getEdge(catalog['Dirigido'], origen, destino) is None:
+        gr.addEdge(catalog['Dirigido'], origen, destino, distancia)
     return catalog
 
 def addAeroND(catalog, aeropuerto):
@@ -97,20 +99,8 @@ def addAeroND(catalog, aeropuerto):
         error.reraise(exp, 'model:addAeroND')
 
 def addEdgeND(catalog, origen, destino, distancia):
-    gr.addEdge(catalog['No_Dirigido'], origen, destino, distancia)
-    return catalog
-
-def addAeroRuta(catalog, ruta):
-    entry = mp.get(catalog['aeropuertos'], ruta['Departure'])
-    if entry is None:
-        lstroutes = lt.newList(cmpfunction=compareroutes)
-        lt.addLast(lstroutes, (ruta['Destination'], ruta['Airline']))
-        mp.put(catalog['aeropuertos'], ruta['Departure'], lstroutes)
-    else:
-        lstroutes = entry['value']
-        info = (ruta['Destination'], ruta['Airline'])
-        if not lt.isPresent(lstroutes, info):
-            lt.addLast(lstroutes, info)
+    if gr.getEdge(catalog['No_Dirigido'], origen, destino) is None:
+        gr.addEdge(catalog['No_Dirigido'], origen, destino, distancia)
     return catalog
 
 def addAeropuerto(catalog, aeropuerto):
@@ -173,7 +163,17 @@ def ClusterAereo(catalog, IATA_1, IATA_2):
 
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
-#def MillasViajero():
+def MillasViajero(catalog, millas, origen):
+    aeropuertos = mp.keySet(catalog['Aeropuertos'])
+    for i in lt.iterator(aeropuertos):
+        entry = mp.get(catalog['Aeropuertos'], i)
+        value = me.getValue(entry)
+        if value['City'] == origen:
+            aero = value['IATA']
+    millas = int(millas) * 1.60
+    MST = prim.PrimMST(catalog['Dirigido'])
+    return print(MST['iminpq'])
+
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
 #def AeropuertoCerrado():
