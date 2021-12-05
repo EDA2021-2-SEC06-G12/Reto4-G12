@@ -48,6 +48,7 @@ def newCatalog():
         catalog = {
                     'Aeropuertos': None,
                     'Ciudades': None,
+                    'Rutas_D': None,
                     'Lista_Ciudades': None,
                     'Dirigido': None,
                     'No_Dirigido': None
@@ -58,6 +59,10 @@ def newCatalog():
                                      comparefunction=compareStopIds)
         
         catalog['Ciudades'] = mp.newMap(numelements=45000,
+                                     maptype='PROBING',
+                                     comparefunction=compareStopIds)
+        
+        catalog['Rutas_D'] = mp.newMap(numelements=45000,
                                      maptype='PROBING',
                                      comparefunction=compareStopIds)
 
@@ -100,6 +105,28 @@ def addAeroND(catalog, aeropuerto):
 def addEdgeND(catalog, origen, destino, distancia):
     if gr.getEdge(catalog['No_Dirigido'], origen, destino) is None:
         gr.addEdge(catalog['No_Dirigido'], origen, destino, distancia)
+    return catalog
+
+def addAeroRuta(catalog, ruta):
+    entry = mp.get(catalog['Rutas_D'], ruta['Departure'])
+    if entry is None:
+        lstroutes = lt.newList('ARRAY_LIST')
+        lt.addLast(lstroutes, ruta['Destination'])
+        mp.put(catalog['Rutas_D'], ruta['Departure'], lstroutes)
+    else:
+        lstroutes = entry['value']
+        info = ruta['Destination']
+        if not lt.isPresent(lstroutes, info):
+            lt.addLast(lstroutes, info)
+    return catalog
+
+def verificar(catalog, origen, destino, distancia):
+    entry = mp.get(catalog['Rutas_D'], destino)
+    if entry is not None:
+        lista = me.getValue(entry)
+        for i in lt.iterator(lista):
+            if i == origen:
+                addEdgeND(catalog, origen, destino, distancia)
     return catalog
 
 def addAeropuerto(catalog, aeropuerto):

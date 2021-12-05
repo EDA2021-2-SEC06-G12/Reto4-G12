@@ -55,19 +55,13 @@ def loadData(catalog):
         destino = ruta['Destination']
         distancia = float(ruta['distance_km'])
         model.addEdgeD(catalog, origen, destino, distancia)
-        No_Dirigido(catalog, origen, destino, distancia)
+        model.addAeroRuta(catalog, ruta)
+        model.verificar(catalog, origen, destino, distancia)
     
     for ciudad in archivo_ciudades:
         model.addCiudad(catalog, ciudad)
             
     return catalog
-
-def No_Dirigido(catalog, origen, destino, distancia):
-    rutas = cf.data_dir + 'routes-utf8-small.csv'
-    archivo_rutas = csv.DictReader(open(rutas, encoding="utf-8"))
-    for ruta in archivo_rutas:
-        if ruta['Departure'] == destino and ruta['Destination'] == origen:
-                model.addEdgeND(catalog, origen, destino, distancia)
 
 # REQUERIMIENTO 1 (ENCONTRAR PUNTOS DE INTERCONEXIÓN AÉREA)
 def InterAerea(catalog):
