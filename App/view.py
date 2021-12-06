@@ -35,6 +35,42 @@ se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
 
+#FORMATOS DE RESPUESTA
+# Carga de Datos
+def formatoCargaG(rta):
+    for i in lt.iterator(rta):
+        print("\nIATA:", i['IATA'])
+        print("Name:", i['Name'])
+        print("City:", i['City'])
+        print("Country:", i['Country'])
+        print("Latitude:", i['Latitude'])
+        print("Longitude:", i['Longitude'])
+
+def formatoCarga(rta):
+    for i in rta:
+        print("\nCity:", i['city'])
+        print("Country:", i['country'])
+        print("Lat:", i['lat'])
+        print("Lng:", i['lng'])
+        print("Population:", i['population'])
+
+# Requerimiento 1
+def formatoRtaReq1(rta):
+    rta = rta[1]
+    for i in rta:
+        aero = i[3]
+        conexiones = i[0]
+        entran = i[1]
+        salen = i[2]
+        print("\nName:", aero['Name'])
+        print("City:", aero['City'])
+        print("Country:", aero['Country'])
+        print("IATA:", aero['IATA'])
+        print("Connections:", conexiones)
+        print("Inbound:", entran)
+        print("Outbound:", salen)
+
+# Requerimiento 3
 def formato(rta):
     opcion = 1
     for i in lt.iterator(rta):
@@ -61,51 +97,21 @@ def formato3(rta):
         print("Distancia:", i['weight'], "km")
         Recorrido += 1
 
-def formatoCarga(rta):
-    for i in rta:
-        print("\nCity:", i['city'])
-        print("Country:", i['country'])
-        print("Lat:", i['lat'])
-        print("Lng:", i['lng'])
-        print("Population:", i['population'])
-
-def formatoCargaG(rta):
-    for i in lt.iterator(rta):
-        print("\nIATA:", i['IATA'])
-        print("Name:", i['Name'])
-        print("City:", i['City'])
-        print("Country:", i['Country'])
-        print("Latitude:", i['Latitude'])
-        print("Longitude:", i['Longitude'])
-
-def formatoRtaReq1(rta):
-    rta = rta[1]
-    for i in rta:
-        aero = i[3]
-        conexiones = i[0]
-        entran = i[1]
-        salen = i[2]
-        print("\nName:", aero['Name'])
-        print("City:", aero['City'])
-        print("Country:", aero['Country'])
-        print("IATA:", aero['IATA'])
-        print("Connections:", conexiones)
-        print("Inbound:", entran)
-        print("Outbound:", salen)
-
+# Requerimiento 5
 def formatoRtaReq5(rta_1, rta_2):
     for i in lt.iterator(rta_1):
         print("\nIATA:", i['IATA'])
         print("Name:", i['Name'])
         print("City:", i['City'])
         print("Country:", i['Country'])
-
     for j in lt.iterator(rta_2):
         print("\nIATA:", j['IATA'])
         print("Name:", j['Name'])
         print("City:", j['City'])
         print("Country:", j['Country'])
 
+#INTERACCIÓN CON EL USUARIO
+# Menú de Opciones
 def printMenu():
     print("\nBienvenido")
     print("1- Inicializar Catálogo")
@@ -121,6 +127,7 @@ def printMenu():
 """
 Menu principal
 """
+# Selección de Opciones
 while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
@@ -186,8 +193,6 @@ while True:
         formato3(Respuesta[2])
         print("\nPara un total de", Respuesta[3], "km.")
         print("\nFinalmente, tenemos un total de", round(Respuesta[3] + Respuesta[4][0] + Respuesta[5][0], 3), "km")
-
-
     
     elif int(inputs[0]) == 6:
         millas = input('Ingrese millas disponibles: ')
