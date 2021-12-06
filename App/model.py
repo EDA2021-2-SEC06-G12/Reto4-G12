@@ -32,6 +32,7 @@ from DISClib.DataStructures import mapentry as me
 from DISClib.Utils import error as error
 from DISClib.Algorithms.Sorting import mergesort as mrgs
 from DISClib.Algorithms.Graphs import scc
+from DISClib.Algorithms.Graphs import dijsktra as dj
 from DISClib.Algorithms.Graphs import prim
 import folium 
 assert cf
@@ -190,16 +191,14 @@ def ClusterAereo(catalog, IATA_1, IATA_2):
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
 def MillasViajero(catalog, millas, origen):
-    aeropuertos = mp.keySet(catalog['Aeropuertos'])
-    for i in lt.iterator(aeropuertos):
-        entry = mp.get(catalog['Aeropuertos'], i)
-        value = me.getValue(entry)
-        if value['City'] == origen:
-            aero = value['IATA']
-    millas = int(millas) * 1.60
-    MST = prim.PrimMST(catalog['Dirigido'])
-    return MST
-
+    millas = float(millas) * 1.60
+    MST = prim.PrimMST(catalog['No_Dirigido'])
+    '''MST = prim.edgesMST(catalog['No_Dirigido'], MST)
+    mst = MST['edgeTo']['table']['elements']
+    for i in mst:
+        if i['key'] is not None:
+            print(i)'''
+    return MST['edgeTo']
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
 def AeropuertoCerrado(catalog, cerrado):

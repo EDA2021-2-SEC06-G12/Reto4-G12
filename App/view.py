@@ -141,8 +141,9 @@ while True:
     
     elif int(inputs[0]) == 6:
         millas = input('Ingrese millas disponibles: ')
-        origen = input('Ingrese ciudad de origen: ')
+        origen = input('Ingrese código IATA de origen: ')
         Algoritmo = controller.MillasViajero(cont, millas, origen)
+        print(Algoritmo)
     
     elif int(inputs[0]) == 7:
         cerrado = input('Ingrese IATA del aeropuerto a cerrar: ')
