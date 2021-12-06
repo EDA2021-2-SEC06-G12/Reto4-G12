@@ -34,6 +34,18 @@ Presenta el menu de opciones y por cada seleccion
 se hace la solicitud al controlador para ejecutar la
 operación solicitada
 """
+
+def formato(rta):
+    opcion = 1
+    for i in lt.iterator(rta):
+        print("\nOpcion", opcion)
+        print("City:", i['city'])
+        print("Country:", i['country'])
+        print("Lat:", i['lat'])
+        print("Lng:", i['lng'])
+        print("Population:", i['population'])
+        opcion += 1 
+
 def formatoCarga(rta):
     for i in rta:
         print("\nCity:", i['city'])
@@ -137,7 +149,21 @@ while True:
     elif int(inputs[0]) == 5:
         origen = input('Ingrese ciudad de origen: ')
         destino = input('Ingrese ciudad de destino: ')
-        Algoritmo = controller.RutaCorta(cont, origen, destino)
+        Algoritmo = controller.Seleccionar_Ciudad(cont, origen, destino)
+        if Algoritmo[0] > 1:
+            print("\nHay un total de", Algoritmo[0], "ciudades de origen con el nombre ingresado:")
+            formato(Algoritmo[2])
+            origen = input('\nPor favor seleccione la opción que desea analizar: ')
+        if Algoritmo[1] > 1:
+            print("\nHay un total de", Algoritmo[1], "ciudades de destino con el nombre ingresado:")
+            formato(Algoritmo[3])
+            destino = input('\nPor favor seleccione la opción que desea analizar: ')
+        elif Algoritmo[0] == 1:
+            origen = 1        
+        elif Algoritmo[1] == 1:
+            destino = 1
+        Respuesta = controller.RutaCorta(cont, origen, destino, Algoritmo[2], Algoritmo[3])
+        print(Respuesta)
     
     elif int(inputs[0]) == 6:
         millas = input('Ingrese millas disponibles: ')

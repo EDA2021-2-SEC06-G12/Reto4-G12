@@ -74,8 +74,12 @@ def ClusterAereo(catalog, IATA_1, IATA_2):
     return Algoritmo
 
 # REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
-def RutaCorta(catalog, origen, destino):
-    Algoritmo = model.RutaCorta(catalog, origen, destino)
+def RutaCorta(catalog, origen, destino, lista_1, lista_2):
+    Algoritmo = model.RutaCorta(catalog, origen, destino, lista_1, lista_2)
+    return Algoritmo
+
+def Seleccionar_Ciudad(catalog, origen, destino):
+    Algoritmo = model.Seleccionar_Ciudad(catalog, origen, destino)
     return Algoritmo
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)

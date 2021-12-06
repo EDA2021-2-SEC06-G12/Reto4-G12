@@ -186,8 +186,53 @@ def ClusterAereo(catalog, IATA_1, IATA_2):
     return cuantos, pertenecen
 
 # REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
-#def RutaCorta(catalog, origen, destino):
+def RutaCorta(catalog, origen, destino, lista_1, lista_2):
+    origen = lt.getElement(lista_1, int(origen))
+    destino = lt.getElement(lista_2, int(destino))
+    pais_o = origen['country']
+    pais_d = destino['country']
+    return pais_o, pais_d
 
+def Seleccionar_Ciudad(catalog, origen, destino):
+    len_O = len(origen)
+    len_D = len(destino)
+    ciudades_1 = lt.newList('ARRAY_LIST')
+    ciudades_2 = lt.newList('ARRAY_LIST')
+    lista = mp.keySet(catalog['Ciudades'])
+    for i in lt.iterator(lista):
+        if len_O > 6:
+            if origen[::-1][0:int(len(origen)/2) + 1] in i[::-1][0:int(len(i)/2) + 1]:
+                entry = mp.get(catalog['Ciudades'], i)
+                value = me.getValue(entry)
+                lt.addLast(ciudades_1, (i, value))
+        if len_D > 6:
+            if destino[::-1][0:int(len(destino)/2) + 1] in i[::-1][0:int(len(i)/2) + 1]:
+                entry = mp.get(catalog['Ciudades'], i)
+                value = me.getValue(entry)
+                lt.addLast(ciudades_2, (i, value))
+        else:
+            if i == origen:
+                entry = mp.get(catalog['Ciudades'], i)
+                value = me.getValue(entry)
+                lt.addLast(ciudades_1, (i, value))
+            if i == destino:
+                entry = mp.get(catalog['Ciudades'], i)
+                value = me.getValue(entry)
+                lt.addLast(ciudades_2, (i, value))
+
+    x = Contar(ciudades_1)
+    y = Contar(ciudades_2)
+
+    return x[0], y[0], x[1], y[1]
+
+def Contar(lista):
+    ciudades_1 = lt.newList('ARRAY_LIST')
+    for i in lt.iterator(lista):
+        lista_1 = i[1]
+        for j in lt.iterator(lista_1):
+            lt.addLast(ciudades_1, j)
+    x = lt.size(ciudades_1)
+    return x, ciudades_1
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
 def MillasViajero(catalog, millas, origen):
