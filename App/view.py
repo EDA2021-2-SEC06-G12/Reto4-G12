@@ -182,11 +182,10 @@ while True:
         formato2(Respuesta[0])
         print("\nEl aeropuerto de destino es:")
         formato2(Respuesta[1])
-        print("\nEl aeropuerto de destino es:", Respuesta[2])
         print("\nLa ruta a seguir es:")
         formato3(Respuesta[2])
         print("\nPara un total de", Respuesta[3], "km.")
-        print("\nFinalmente, tenemos un total de", Respuesta[3] + Respuesta[4][0] + Respuesta[5][0], "km.")
+        print("\nFinalmente, tenemos un total de", round(Respuesta[3] + Respuesta[4][0] + Respuesta[5][0], 3), "km")
 
 
     
