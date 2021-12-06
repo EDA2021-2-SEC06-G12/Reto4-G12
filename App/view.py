@@ -44,7 +44,22 @@ def formato(rta):
         print("Lat:", i['lat'])
         print("Lng:", i['lng'])
         print("Population:", i['population'])
-        opcion += 1 
+        opcion += 1
+
+def formato2(rta):
+    print("\nIATA:", rta['IATA'])
+    print("Name:", rta['Name'])
+    print("City:", rta['City'])
+    print("Country:", rta['Country'])
+
+def formato3(rta):
+    Recorrido = 1
+    for i in lt.iterator(rta):
+        print("\nVuelo:", Recorrido)
+        print("Departure:", i['vertexA'])
+        print("Destination:", i['vertexB'])
+        print("Distancia:", i['weight'], "km")
+        Recorrido += 1
 
 def formatoCarga(rta):
     for i in rta:
@@ -163,7 +178,17 @@ while True:
         elif Algoritmo[1] == 1:
             destino = 1
         Respuesta = controller.RutaCorta(cont, origen, destino, Algoritmo[2], Algoritmo[3])
-        print(Respuesta)
+        print("\nEl aeropuerto de origen es:")
+        formato2(Respuesta[0])
+        print("\nEl aeropuerto de destino es:")
+        formato2(Respuesta[1])
+        print("\nEl aeropuerto de destino es:", Respuesta[2])
+        print("\nLa ruta a seguir es:")
+        formato3(Respuesta[2])
+        print("\nPara un total de", Respuesta[3], "km.")
+        print("\nFinalmente, tenemos un total de", Respuesta[3] + Respuesta[4][0] + Respuesta[5][0], "km.")
+
+
     
     elif int(inputs[0]) == 6:
         millas = input('Ingrese millas disponibles: ')

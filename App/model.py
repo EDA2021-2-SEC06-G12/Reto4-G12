@@ -34,6 +34,7 @@ from DISClib.Algorithms.Sorting import mergesort as mrgs
 from DISClib.Algorithms.Graphs import scc
 from DISClib.Algorithms.Graphs import dijsktra as dj
 from DISClib.Algorithms.Graphs import prim
+import math
 import folium 
 assert cf
 
@@ -187,11 +188,50 @@ def ClusterAereo(catalog, IATA_1, IATA_2):
 
 # REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
 def RutaCorta(catalog, origen, destino, lista_1, lista_2):
+    d_o = lt.newList('ARRAY_LIST')
+    d_d = lt.newList('ARRAY_LIST')
     origen = lt.getElement(lista_1, int(origen))
     destino = lt.getElement(lista_2, int(destino))
     pais_o = origen['country']
+    ln_o = origen['lng']
+    lt_o = origen['lat']
     pais_d = destino['country']
-    return pais_o, pais_d
+    ln_d = destino['lng']
+    lt_d = destino['lng']
+    aeropuertos = mp.keySet(catalog['Aeropuertos'])
+    for i in lt.iterator(aeropuertos):
+        entry = mp.get(catalog['Aeropuertos'], i)
+        value =  me.getValue(entry)
+        if value['Country'] == pais_o:
+            lat = value['Latitude']
+            lon = value['Longitude']
+            rta = Haversine(float(lt_o), float(ln_o), float(lat), float(lon))
+            lt.addLast(d_o, (rta, value['IATA']))
+        if value['Country'] == pais_d:
+            lat = value['Latitude']
+            lon = value['Longitude']
+            rta = Haversine(float(lt_d), float(ln_d), float(lat), float(lon))
+            lt.addLast(d_d, (rta, value['IATA']))
+    
+    orden_o = lt.lastElement(ordenamiento(d_o))
+    orden_d = lt.lastElement(ordenamiento(d_d))
+
+    aeropuerto_o = me.getValue(mp.get(catalog['Aeropuertos'], orden_o[1]))
+    aeropuerto_d = me.getValue(mp.get(catalog['Aeropuertos'], orden_d[1]))
+
+    Arbol = dj.Dijkstra(catalog['Dirigido'], aeropuerto_o['IATA'])
+    camino = dj.pathTo(Arbol, aeropuerto_d['IATA'])
+    costo = dj.distTo(Arbol, aeropuerto_d['IATA'])
+
+    return aeropuerto_o, aeropuerto_d, camino, costo, orden_o, orden_d
+
+def Haversine(lat1, lon1, lat2, lon2):
+    x = (math.radians(lat2 - lat1))/2
+    y = (math.radians(lat2 + lat1))/2
+    z = (math.radians(lon2 - lon1))/2
+    h = ((math.sin(x))**2) + (1 - ((math.sin(x))**2) - ((math.sin(y))**2))*((math.sin(z))**2)
+    rta = 2*6371*(math.asin(math.sqrt(h)))
+    return rta
 
 def Seleccionar_Ciudad(catalog, origen, destino):
     len_O = len(origen)
