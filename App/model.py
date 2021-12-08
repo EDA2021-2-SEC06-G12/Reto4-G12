@@ -34,6 +34,7 @@ from DISClib.Algorithms.Sorting import mergesort as mrgs
 from DISClib.Algorithms.Graphs import scc
 from DISClib.Algorithms.Graphs import dijsktra as dj
 from DISClib.Algorithms.Graphs import prim
+from DISClib.Algorithms.Graphs import dfs
 import math
 import folium 
 assert cf
@@ -118,7 +119,7 @@ def addAeroRuta(catalog, ruta):
     else:
         lstroutes = entry['value']
         info = ruta['Destination']
-        if not lt.isPresent(lstroutes, info):
+        if lt.isPresent(lstroutes, info) is 0:
             lt.addLast(lstroutes, info)
     return catalog
 
@@ -276,9 +277,36 @@ def Contar(lista):
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
 def MillasViajero(catalog, millas, origen):
+    lista = lt.newList('ARRAY_LIST')
     millas = float(millas) * 1.60
+    nuevo_grafo = mst(catalog)
+    x = dfs.DepthFirstSearch(nuevo_grafo, origen)
+    d = x['visited']['table']['elements']
+    for i in d:
+        if i['key'] is not None:
+            camino = dfs.pathTo(x, i['key'])
+            lt.addLast(lista, (camino['size'], camino))
+
+    return lista
+
+def mst(catalog):
+    nuevo_grafo = gr.newGraph(datastructure='ADJ_LIST',
+                                              directed=False,
+                                              size=1000,
+                                              comparefunction=compareStopIds)
     MST = prim.PrimMST(catalog['No_Dirigido'])
-    MST = prim.edgesMST(catalog['No_Dirigido'], MST)
+    for i in MST['edgeTo']['table']['elements']:
+        if i['key'] is not None:
+            origen = i['value']['vertexA']
+            destino = i['value']['vertexB']
+            distancia = i['value']['weight']
+            if not gr.containsVertex(nuevo_grafo, origen):
+                gr.insertVertex(nuevo_grafo, origen)
+            if not gr.containsVertex(nuevo_grafo, destino):
+                gr.insertVertex(nuevo_grafo, destino)
+            if gr.getEdge(nuevo_grafo, origen, destino) is None:
+                gr.addEdge(nuevo_grafo, origen, destino, distancia)
+    return nuevo_grafo
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
 def AeropuertoCerrado(catalog, cerrado):
@@ -343,9 +371,20 @@ def cmpA_IN(artist1, artist2):
         r = False 
     return r
 
+def cmpA_I(artist1, artist2):
+    if artist1[0] > artist2[0]:
+        r = True
+    else:
+        r = False 
+    return r
+
 #FUNCIONES DE ORDENAMIENTO
 def ordenamiento(Lista):
     sorted_list = mrgs.sort(Lista, cmpfunction=cmpA_IN)
+    return sorted_list
+
+def ordenamiento2(Lista):
+    sorted_list = mrgs.sort(Lista, cmpfunction=cmpA_I)
     return sorted_list
 
 # FUNCIONES ADICIONALES
