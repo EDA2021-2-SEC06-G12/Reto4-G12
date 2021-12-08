@@ -278,12 +278,7 @@ def Contar(lista):
 def MillasViajero(catalog, millas, origen):
     millas = float(millas) * 1.60
     MST = prim.PrimMST(catalog['No_Dirigido'])
-    '''MST = prim.edgesMST(catalog['No_Dirigido'], MST)
-    mst = MST['edgeTo']['table']['elements']
-    for i in mst:
-        if i['key'] is not None:
-            print(i)'''
-    return MST['edgeTo']
+    MST = prim.edgesMST(catalog['No_Dirigido'], MST)
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
 def AeropuertoCerrado(catalog, cerrado):

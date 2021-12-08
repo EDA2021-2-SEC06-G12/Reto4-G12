@@ -56,7 +56,6 @@ def formatoCarga(rta):
 
 # Requerimiento 1
 def formatoRtaReq1(rta):
-    rta = rta[1]
     for i in rta:
         aero = i[3]
         conexiones = i[0]
@@ -154,12 +153,13 @@ while True:
 
     elif int(inputs[0]) == 3:
         Algoritmo = controller.InterAerea(cont)
-        print("\nDentro de la red, hay un total de", Algoritmo[0], "aeropuertos interconectados.")
-        formatoRtaReq1(Algoritmo)
+        print("\nDentro de la red, hay un total de", Algoritmo[0], 
+                "aeropuertos interconectados. A continuación, se presentan los 5 aeropuertos más interconectados:")
+        formatoRtaReq1(Algoritmo[1])
 
     elif int(inputs[0]) == 4:
-        IATA_1 = input('Ingrese código IATA del aeropuerto 1: ')
-        IATA_2 = input('Ingrese código IATA del aeropuerto 2: ')
+        IATA_1 = input('Ingrese código IATA del aeropuerto 1: ') # LED
+        IATA_2 = input('Ingrese código IATA del aeropuerto 2: ') # RTP
         sys.setrecursionlimit(2 ** 20)
         Algoritmo = controller.ClusterAereo(cont, IATA_1, IATA_2)
         print("\nDentro de la red, hay un total de", Algoritmo[0], "componentes fuertemente conectados.\n")
@@ -169,8 +169,8 @@ while True:
             print("Los aeropuertos ingresados no se encuentran dentro del mismo componente.")
     
     elif int(inputs[0]) == 5:
-        origen = input('Ingrese ciudad de origen: ')
-        destino = input('Ingrese ciudad de destino: ')
+        origen = input('Ingrese ciudad de origen: ') # St. Petersburg
+        destino = input('Ingrese ciudad de destino: ') # Lisbon
         Algoritmo = controller.Seleccionar_Ciudad(cont, origen, destino)
         if Algoritmo[0] > 1:
             print("\nHay un total de", Algoritmo[0], "ciudades de origen con el nombre ingresado:")
@@ -195,13 +195,13 @@ while True:
         print("\nFinalmente, tenemos un total de", round(Respuesta[3] + Respuesta[4][0] + Respuesta[5][0], 3), "km")
     
     elif int(inputs[0]) == 6:
-        millas = input('Ingrese millas disponibles: ')
-        origen = input('Ingrese código IATA de origen: ')
+        millas = input('Ingrese millas disponibles: ') # 1985.00
+        origen = input('Ingrese código IATA de origen: ') # LIS
         Algoritmo = controller.MillasViajero(cont, millas, origen)
         print(Algoritmo)
     
     elif int(inputs[0]) == 7:
-        cerrado = input('Ingrese IATA del aeropuerto a cerrar: ')
+        cerrado = input('Ingrese IATA del aeropuerto a cerrar: ') # DXB
         Algoritmo = controller.AeropuertoCerrado(cont, cerrado)
         print("Al cerrar el aeropuerto", cerrado + ",", "se afectan", Algoritmo[0],
                 "aeropuertos. A continuación, se presentan los 3 primeros y los 3 últimos aeropuertos afectados:")
