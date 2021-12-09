@@ -227,8 +227,11 @@ while True:
         formatoRtaReq5(Algoritmo[1], Algoritmo[2])
     
     elif int(inputs[0]) == 8:
-        Algoritmo = controller.WEBExterno()
-
+        
+        origen = input('Ingrese ciudad de origen: ') # St. Petersburg
+        destino = input('Ingrese ciudad de destino: ') # Lisbon
+        Algoritmo = controller.WEBExterno(origen, destino, cont)
+        print(Algoritmo)
     else:
         sys.exit(0)
 sys.exit(0)

@@ -23,7 +23,7 @@
  *
  * Dario Correal - Version inicial
  """
-
+import requests
 import config as cf
 from DISClib.ADT.graph import gr
 from DISClib.ADT import list as lt
@@ -341,10 +341,8 @@ def MillasViajero(catalog, millas, origen):
     VisualizarReq4(final, a_o, 'Requerimiento 4.html')
 
     faltantes = (cuantos - millas)/1.60
-
-    lenlista = lt.size(lista)
     
-    return nodos, cuantos, lista, faltantes, millas, lenlista
+    return nodos, cuantos, lista, faltantes, millas
 
 
 def mst(catalog):
@@ -368,28 +366,69 @@ def mst(catalog):
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
 def AeropuertoCerrado(catalog, cerrado):
-    n = lt.newList('ARRAY_LIST')
-    lista = lt.newList('ARRAY_LIST')
-    AD = gr.adjacents(catalog['Dirigido'], cerrado)
-    for i in lt.iterator(AD):
-        if lt.isPresent(n, i) is 0:
-            lt.addLast(n, i)
-            entry = mp.get(catalog['Aeropuertos'], i)
-            value = me.getValue(entry)
-            lt.addLast(lista, value)
+    n = lt.newList('ARRAY_LIST') # O(1)
+    lista = lt.newList('ARRAY_LIST') # O(1)
+    AD = gr.adjacents(catalog['Dirigido'], cerrado) # O(1)
+    for i in lt.iterator(AD): # O(n)
+        if lt.isPresent(n, i) is 0: # O(1)
+            lt.addLast(n, i) # O(1)
+            entry = mp.get(catalog['Aeropuertos'], i) # O(1)
+            value = me.getValue(entry) # O(1)
+            lt.addLast(lista, value) # O(1)
 
-    cuantos = lt.size(lista)
+    cuantos = lt.size(lista) # O(1)
 
-    primeros_3 = lt.subList(lista, 1, 3)
-    ultimos_3 = lt.subList(lista, len(lista) - 3, 3)
+    primeros_3 = lt.subList(lista, 1, 3) # O(1)
+    ultimos_3 = lt.subList(lista, len(lista) - 3, 3) # O(1)
 
     Visualizar(lista, 'Requerimiento 5.html')
 
     return cuantos, primeros_3, ultimos_3
 
 # REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)
-#def WEBExterno():
+def WEBExterno (origen, destino, catalog):
+    origen=origenr6(origen, catalog)
+    destino=destinoreq6 ( destino, catalog)
+    return origen,destino
+def origenr6(origen, catalog):
+    entry1 = mp.get(catalog['Ciudades'], origen)
+    value1 = me.getValue(entry1)
+    lat1= value1["lat"]
+    lng1= value1["lng"]
+               
+    access_token = "" #TODO
+    headers = {"Authorization": "Bearer " + access_token}
+    params = {
+    "latitude": lat1,
+    "longitude": lng1,
+    "radius": 500
+    }
+    
+               
+    r = requests.get('https://test.api.amadeus.com/v1/reference-data/locations/airports', headers=headers, params=params)
+    #print(r.text)     #Solo para imprimir
+    respuesta=(r.json()) #Para procesar
+    return respuesta
+def destinoreq6 ( destino, catalog):
 
+    entry2 = mp.get(catalog['Ciudades'], destino)
+    value2 = me.getValue(entry2)
+    lat2= value2["lat"]
+    lng2= value2["lng"]
+                
+    access_token = "XCLNlC1xn3fb0a0XnckarcRRPEef" #TODO
+    headers = {"Authorization": "Bearer " + access_token}
+    params = {
+    "latitude": lat2,
+    "longitude": lng2,
+    "radius": 500
+    }
+               
+    r = requests.get('https://test.api.amadeus.com/v1/reference-data/locations/airports', headers=headers, params=params)
+
+    #print(r.text)     #Solo para imprimir
+    respuesta=(r.json()) #Para procesar
+    return respuesta
 # REQUERIMIENTO 7 (VISUALIZAR GRÁFICAMENTE LOS REQUERIMIENTOS)
 def Visualizar(lista, nombre_mapa):
     aeropuertos = lista

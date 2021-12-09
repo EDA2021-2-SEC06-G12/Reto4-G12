@@ -93,8 +93,8 @@ def AeropuertoCerrado(catalog, cerrado):
     return Algoritmo
 
 # REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)
-def WEBExterno():
-    Algoritmo = model.WEBExterno()
+def WEBExterno(origen, destino,catalog):
+    Algoritmo = model.WEBExterno (origen, destino, catalog)
     return Algoritmo
 
 # FUNCIONES ADICIONALES
