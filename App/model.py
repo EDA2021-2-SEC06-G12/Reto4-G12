@@ -182,7 +182,31 @@ def InterAerea(catalog):
 
 # REQUERIMIENTO 2 (ENCONTRAR CLÚSTERES DE TRÁFICO AÉRE0)
 def ClusterAereo(catalog, IATA_1, IATA_2):
+    componente1 = lt.newList('ARRAY_LIST')
+    componente2 = lt.newList('ARRAY_LIST')
     componentes = scc.KosarajuSCC(catalog['Dirigido'])
+    c = componentes['idscc']['table']
+    for i in lt.iterator(c):
+        if i['key'] == IATA_1:
+            com1 = i['value']
+        if i['key'] == IATA_2:
+            com2 = i['value']
+    
+    c1 = me.getValue(mp.get(catalog['Aeropuertos'], IATA_1))
+    c2 = me.getValue(mp.get(catalog['Aeropuertos'], IATA_2))
+
+    for j in lt.iterator(c):
+        if j['value'] == com1:
+            entry = mp.get(catalog['Aeropuertos'], j['key'])
+            value = me.getValue(entry)
+            lt.addLast(componente1, value)
+        if j['value'] == com2:
+            entry1 = mp.get(catalog['Aeropuertos'], j['key'])
+            value1 = me.getValue(entry1)
+            lt.addLast(componente2, value1)
+    
+    VisualizarReq2(componente1, componente2, 'Requerimiento 2.html', c1, c2)
+
     cuantos = scc.connectedComponents(componentes)
     pertenecen = scc.stronglyConnected(componentes, IATA_1, IATA_2)
     return cuantos, pertenecen
@@ -351,6 +375,28 @@ def Visualizar(lista, nombre_mapa):
         folium.Marker([i['Latitude'], i['Longitude']], tooltip=tooltip,
                         popup=nombre).add_to(mapa)
     mapa.save(nombre_mapa)
+
+def VisualizarReq2(lista1, lista2, nombre_mapa, c1, c2):
+    mapa = folium.Map()
+    tooltip = '¿Cuál aeropuerto es?: ¡Click para ver!'
+    for i in lt.iterator(lista1):
+        nombre = i['Name'],(i['IATA'])
+        folium.Marker([i['Latitude'], i['Longitude']], icon=folium.Icon(color="green"), tooltip=tooltip,
+                        popup=nombre).add_to(mapa)
+
+    for j in lt.iterator(lista2):
+        nombre = j['Name'],(j['IATA'])
+        folium.Marker([j['Latitude'], j['Longitude']], icon=folium.Icon(color="blue"), tooltip=tooltip,
+                        popup=nombre).add_to(mapa)
+    
+    folium.Marker([c1['Latitude'], c1['Longitude']], icon=folium.Icon(color="red", icon="info-sign"), tooltip=tooltip,
+                        popup=(c1['Name'],c1['IATA'])).add_to(mapa)
+
+    folium.Marker([c2['Latitude'], c2['Longitude']], icon=folium.Icon(color="red", icon="info-sign"), tooltip=tooltip,
+                        popup=(c2['Name'],c2['IATA'])).add_to(mapa)
+
+    mapa.save(nombre_mapa)
+
 
 # FUNCIONES DE COMPARACIÓN
 def compareStopIds(stop, keyvaluestop):
