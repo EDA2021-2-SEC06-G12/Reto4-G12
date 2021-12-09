@@ -213,6 +213,7 @@ def ClusterAereo(catalog, IATA_1, IATA_2):
 
 # REQUERIMIENTO 3 (ENCONTRAR LA RUTA MÁS CORTA ENTRE CIUDADES)
 def RutaCorta(catalog, origen, destino, lista_1, lista_2):
+    l1 = lt.newList('ARRAY_LIST')
     d_o = lt.newList('ARRAY_LIST')
     d_d = lt.newList('ARRAY_LIST')
     origen = lt.getElement(lista_1, int(origen))
@@ -247,6 +248,14 @@ def RutaCorta(catalog, origen, destino, lista_1, lista_2):
     Arbol = dj.Dijkstra(catalog['Dirigido'], aeropuerto_o['IATA'])
     camino = dj.pathTo(Arbol, aeropuerto_d['IATA'])
     costo = dj.distTo(Arbol, aeropuerto_d['IATA'])
+
+    for k in lt.iterator(camino):
+        aero = me.getValue(mp.get(catalog['Aeropuertos'], k['vertexA']))
+        aero2 = me.getValue(mp.get(catalog['Aeropuertos'], k['vertexB']))
+        lt.addLast(l1, aero)
+        lt.addLast(l1, aero2)
+    
+    VisualizarReq3(l1, aeropuerto_o, aeropuerto_d, 'Requerimiento 3.html')
 
     return aeropuerto_o, aeropuerto_d, camino, costo, orden_o, orden_d
 
@@ -395,6 +404,22 @@ def VisualizarReq2(lista1, lista2, nombre_mapa, c1, c2):
     folium.Marker([c2['Latitude'], c2['Longitude']], icon=folium.Icon(color="red", icon="info-sign"), tooltip=tooltip,
                         popup=(c2['Name'],c2['IATA'])).add_to(mapa)
 
+    mapa.save(nombre_mapa)
+
+def VisualizarReq3(lista, origen, destino, nombre_mapa):
+    mapa = folium.Map()
+    tooltip = '¿Cuál aeropuerto es?: ¡Click para ver!'
+    for i in lt.iterator(lista):
+        nombre = i['Name'],(i['IATA'])
+        folium.Marker([i['Latitude'], i['Longitude']], tooltip=tooltip,
+                        popup=nombre).add_to(mapa)
+    
+    folium.Marker([origen['Latitude'], origen['Longitude']], icon=folium.Icon(color="red", icon="info-sign"), tooltip=tooltip,
+                        popup=(origen['Name'],origen['IATA'])).add_to(mapa)
+
+    folium.Marker([destino['Latitude'], destino['Longitude']], icon=folium.Icon(color="red", icon="info-sign"), tooltip=tooltip,
+                        popup=(destino['Name'],destino['IATA'])).add_to(mapa)
+    
     mapa.save(nombre_mapa)
 
 
