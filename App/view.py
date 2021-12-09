@@ -210,7 +210,10 @@ while True:
         print("\nA continuación, se presenta la información relacionada a la ruta más larga posible dentro del árbol de expansión mínima:")
         print("\nLa distancia es de", str(round(Algoritmo[1], 3)) + ".")
         print("\nLos vuelos a tomar son:")
-        formatoReq4(Algoritmo[2])
+        if Algoritmo[5] > 6:
+            print(Algoritmo[2]['elements'])
+        if Algoritmo[5] < 6:
+            formatoReq4(Algoritmo[2])
         if Algoritmo[3] < 0:
             print("\nAl viajero le sobran un total de", round(abs(Algoritmo[3]), 3), "millas en su viaje.")
         if Algoritmo[3] > 0:

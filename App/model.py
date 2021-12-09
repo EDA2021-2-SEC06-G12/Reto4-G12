@@ -341,8 +341,10 @@ def MillasViajero(catalog, millas, origen):
     VisualizarReq4(final, a_o, 'Requerimiento 4.html')
 
     faltantes = (cuantos - millas)/1.60
+
+    lenlista = lt.size(lista)
     
-    return nodos, cuantos, lista, faltantes, millas
+    return nodos, cuantos, lista, faltantes, millas, lenlista
 
 
 def mst(catalog):
