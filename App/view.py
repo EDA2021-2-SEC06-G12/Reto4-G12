@@ -96,6 +96,13 @@ def formato3(rta):
         print("Distancia:", i['weight'], "km")
         Recorrido += 1
 
+# Requerimiento 4
+def formatoReq4(lista):
+    for i in lt.iterator(lista):
+        print("\nDeparture:", i[0])
+        print("Destination:", i[1])
+        print("Distance:", i[2], "km")
+
 # Requerimiento 5
 def formatoRtaReq5(rta_1, rta_2):
     for i in lt.iterator(rta_1):
@@ -195,10 +202,19 @@ while True:
         print("\nFinalmente, tenemos un total de", round(Respuesta[3] + Respuesta[4][0] + Respuesta[5][0], 3), "km")
     
     elif int(inputs[0]) == 6:
-        millas = input('Ingrese millas disponibles: ') # 1985.00
+        millas = input('Ingrese millas disponibles: ') # 19850.0
         origen = input('Ingrese código IATA de origen: ') # LIS
         Algoritmo = controller.MillasViajero(cont, millas, origen)
-        print(Algoritmo)
+        print("\nDentro del árbol de expansión mínima, hay un total de", Algoritmo[0], "nodos conectados.")
+        print("\nLas millas disponibles del viajero son de", str(Algoritmo[4]) + "(km).")
+        print("\nA continuación, se presenta la información relacionada a la ruta más larga posible dentro del árbol de expansión mínima:")
+        print("\nLa distancia es de", str(round(Algoritmo[1], 3)) + ".")
+        print("\nLos vuelos a tomar son:")
+        formatoReq4(Algoritmo[2])
+        if Algoritmo[3] < 0:
+            print("\nAl viajero le sobran un total de", round(abs(Algoritmo[3]), 3), "millas en su viaje.")
+        if Algoritmo[3] > 0:
+            print("\nAl viajero le faltan un total de", round(abs(Algoritmo[3]), 3), "millas para poder completar su viaje.")
     
     elif int(inputs[0]) == 7:
         cerrado = input('Ingrese IATA del aeropuerto a cerrar: ') # DXB

@@ -277,17 +277,29 @@ def Contar(lista):
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
 def MillasViajero(catalog, millas, origen):
+    cuantos = 0
+    vertices = lt.newList('ARRAY_LIST')
     lista = lt.newList('ARRAY_LIST')
     millas = float(millas) * 1.60
     nuevo_grafo = mst(catalog)
     x = dfs.DepthFirstSearch(nuevo_grafo, origen)
     d = x['visited']['table']['elements']
     for i in d:
-        if i['key'] is not None:
-            camino = dfs.pathTo(x, i['key'])
-            lt.addLast(lista, (camino['size'], camino))
+        if i['key'] is not None and i['value']['edgeTo'] is not None:
+            lt.addLast(vertices, (i['value']['edgeTo'], i['key']))
+    
+    for j in lt.iterator(vertices):
+        peso = gr.getEdge(nuevo_grafo, j[0], j[1])['weight']
+        cuantos += peso
+        tupla = j[0], j[1], peso
+        lt.addLast(lista, tupla)
+        
+    nodos = gr.numVertices(nuevo_grafo)
 
-    return lista
+    faltantes = (cuantos - millas)/1.60
+    
+    return nodos, cuantos, lista, faltantes, millas
+
 
 def mst(catalog):
     nuevo_grafo = gr.newGraph(datastructure='ADJ_LIST',
