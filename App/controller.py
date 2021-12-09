@@ -35,10 +35,10 @@ def initCatalog():
 
 # CARGA DE DATOS AL CATÁLOGO
 def loadData(catalog):
-    rutas = cf.data_dir + 'routes-utf8-small.csv'
+    rutas = cf.data_dir + 'routes-utf8-large.csv'
     archivo_rutas = csv.DictReader(open(rutas, encoding="utf-8"))
 
-    aeropuertos = cf.data_dir + 'airports-utf8-small.csv'
+    aeropuertos = cf.data_dir + 'airports-utf8-large.csv'
     archivo_aeropuertos = csv.DictReader(open(aeropuertos, encoding="utf-8"))
 
     ciudades = cf.data_dir + 'worldcities-utf8.csv'

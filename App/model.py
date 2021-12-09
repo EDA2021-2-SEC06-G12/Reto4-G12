@@ -142,12 +142,12 @@ def addCiudad(catalog, ciudad):
     ciudades = catalog['Ciudades']
     exist = mp.contains(ciudades, ciudad['city'])
     if not exist:
-        lst_ciudades=lt.newList('ARRAY_LIST')
+        lst_ciudades = lt.newList('ARRAY_LIST')
         lt.addLast(lst_ciudades,ciudad)
         mp.put(ciudades, ciudad['city'], lst_ciudades)
 
     if exist:       
-        lista= me.getValue(mp.get(ciudades,ciudad['city']))
+        lista = me.getValue(mp.get(ciudades,ciudad['city']))
         lt.addLast(lista,ciudad)
     lt.addLast(catalog['ListaCiudades'], ciudad)
 
@@ -387,9 +387,10 @@ def AeropuertoCerrado(catalog, cerrado):
 
 # REQUERIMIENTO 6 (COMPARAR CON SERVICIO WEB EXTERNO)
 def WEBExterno (origen, destino, catalog):
-    origen=origenr6(origen, catalog)
-    destino=destinoreq6 ( destino, catalog)
-    return origen,destino
+    origen = origenr6(origen, catalog)
+    destino = destinoreq6(destino, catalog)
+    return origen, destino
+
 def origenr6(origen, catalog):
     entry1 = mp.get(catalog['Ciudades'], origen)
     value1 = me.getValue(entry1)
@@ -403,20 +404,19 @@ def origenr6(origen, catalog):
     "longitude": lng1,
     "radius": 500
     }
-    
                
     r = requests.get('https://test.api.amadeus.com/v1/reference-data/locations/airports', headers=headers, params=params)
     #print(r.text)     #Solo para imprimir
     respuesta=(r.json()) #Para procesar
     return respuesta
-def destinoreq6 ( destino, catalog):
-
+    
+def destinoreq6 (destino, catalog):
     entry2 = mp.get(catalog['Ciudades'], destino)
     value2 = me.getValue(entry2)
     lat2= value2["lat"]
     lng2= value2["lng"]
                 
-    access_token = "XCLNlC1xn3fb0a0XnckarcRRPEef" #TODO
+    access_token = "" #TODO
     headers = {"Authorization": "Bearer " + access_token}
     params = {
     "latitude": lat2,
@@ -429,6 +429,7 @@ def destinoreq6 ( destino, catalog):
     #print(r.text)     #Solo para imprimir
     respuesta=(r.json()) #Para procesar
     return respuesta
+
 # REQUERIMIENTO 7 (VISUALIZAR GRÁFICAMENTE LOS REQUERIMIENTOS)
 def Visualizar(lista, nombre_mapa):
     aeropuertos = lista
@@ -489,7 +490,6 @@ def VisualizarReq4(lista, origen, nombre_mapa):
                         popup=(origen['Name'],origen['IATA'])).add_to(mapa)
     
     mapa.save(nombre_mapa)
-
 
 # FUNCIONES DE COMPARACIÓN
 def compareStopIds(stop, keyvaluestop):
