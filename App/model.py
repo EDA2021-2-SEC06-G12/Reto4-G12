@@ -366,12 +366,15 @@ def mst(catalog):
 
 # REQUERIMIENTO 5 (CUANTIFICAR EL EFECTO DE UN AEROPUERTO CERRADO)
 def AeropuertoCerrado(catalog, cerrado):
+    n = lt.newList('ARRAY_LIST')
     lista = lt.newList('ARRAY_LIST')
-    AD = gr.adjacents(catalog['No_Dirigido'], cerrado)
+    AD = gr.adjacents(catalog['Dirigido'], cerrado)
     for i in lt.iterator(AD):
-        entry = mp.get(catalog['Aeropuertos'], i)
-        value = me.getValue(entry)
-        lt.addLast(lista, value)
+        if lt.isPresent(n, i) is 0:
+            lt.addLast(n, i)
+            entry = mp.get(catalog['Aeropuertos'], i)
+            value = me.getValue(entry)
+            lt.addLast(lista, value)
 
     cuantos = lt.size(lista)
 
