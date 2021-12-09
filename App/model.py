@@ -310,6 +310,7 @@ def Contar(lista):
 
 # REQUERIMIENTO 4 (UTILIZAR LAS MILLAS DE VIAJERO)
 def MillasViajero(catalog, millas, origen):
+    final = lt.newList('ARRAY_LIST')
     cuantos = 0
     vertices = lt.newList('ARRAY_LIST')
     lista = lt.newList('ARRAY_LIST')
@@ -328,6 +329,16 @@ def MillasViajero(catalog, millas, origen):
         lt.addLast(lista, tupla)
         
     nodos = gr.numVertices(nuevo_grafo)
+
+    for k in lt.iterator(lista):
+        a1 = me.getValue(mp.get(catalog['Aeropuertos'], k[0]))
+        a2 = me.getValue(mp.get(catalog['Aeropuertos'], k[1]))
+        lt.addLast(final, a1)
+        lt.addLast(final, a2)
+    
+    a_o = me.getValue(mp.get(catalog['Aeropuertos'], origen))
+
+    VisualizarReq4(final, a_o, 'Requerimiento 4.html')
 
     faltantes = (cuantos - millas)/1.60
     
@@ -419,6 +430,19 @@ def VisualizarReq3(lista, origen, destino, nombre_mapa):
 
     folium.Marker([destino['Latitude'], destino['Longitude']], icon=folium.Icon(color="red", icon="info-sign"), tooltip=tooltip,
                         popup=(destino['Name'],destino['IATA'])).add_to(mapa)
+    
+    mapa.save(nombre_mapa)
+
+def VisualizarReq4(lista, origen, nombre_mapa):
+    mapa = folium.Map()
+    tooltip = '¿Cuál aeropuerto es?: ¡Click para ver!'
+    for i in lt.iterator(lista):
+        nombre = i['Name'],(i['IATA'])
+        folium.Marker([i['Latitude'], i['Longitude']], tooltip=tooltip,
+                        popup=nombre).add_to(mapa)
+
+    folium.Marker([origen['Latitude'], origen['Longitude']], icon=folium.Icon(color="red", icon="info-sign"), tooltip=tooltip,
+                        popup=(origen['Name'],origen['IATA'])).add_to(mapa)
     
     mapa.save(nombre_mapa)
 
